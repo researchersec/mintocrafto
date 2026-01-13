@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MintoCrafto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="logo-text">MintoCrafto</span>
+                    <span class="logo-subtitle">Market Analytics</span>
+                </div>
+            </div>
+            <div class="nav-center">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="globalSearch" placeholder="Search recipes, materials, or items...">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="market-status">
+                    <span class="status-indicator online"></span>
+                    <span>Market Live</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="nav-section">
+                    <h3>Analytics</h3>
+                    <ul class="nav-menu">
+                        <li class="nav-item active" data-tab="overview">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Market Overview</span>
+                        </li>
+                        <li class="nav-item" data-tab="recipes">
+                            <i class="fas fa-flask"></i>
+                            <span>Recipe Analysis</span>
+                        </li>
+                        <li class="nav-item" data-tab="materials">
+                            <i class="fas fa-cubes"></i>
+                            <span>Materials Market</span>
+                        </li>
+                        <li class="nav-item" data-tab="trends">
+                            <i class="fas fa-chart-area"></i>
+                            <span>Profit Trends</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>Tools</h3>
+                    <ul class="nav-menu">
+                        <li class="nav-item" data-tab="calculator">
+                            <i class="fas fa-calculator"></i>
+                            <span>Profit Calculator</span>
+                        </li>
+                        <li class="nav-item" data-tab="portfolio">
+                            <i class="fas fa-briefcase"></i>
+                            <span>My Portfolio</span>
+                        </li>
+                        <li class="nav-item" data-tab="alerts">
+                            <i class="fas fa-bell"></i>
+                            <span>Price Alerts</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>Market Data</h3>
+                    <div class="market-summary">
+                        <div class="summary-item">
+                            <span class="label">Active Recipes</span>
+                            <span class="value" id="sidebarActiveRecipes">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Avg Profit</span>
+                            <span class="value positive" id="sidebarAvgProfit">0g</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Top Margin</span>
+                            <span class="value" id="sidebarTopMargin">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Market Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="page-header">
+                    <h1>Market Overview</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-sync"></i> Refresh Market
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Market Summary Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Total Market Value</h3>
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="metric-value" id="totalMarketValue">0g</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+12.5%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Profitable Recipes</h3>
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-value" id="profitableCount">0</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+8.2%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Best ROI</h3>
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="metric-value" id="bestROI">0%</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+15.7%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Market Activity</h3>
+                            <i class="fas fa-activity"></i>
+                        </div>
+                        <div class="metric-value">High</div>
+                        <div class="metric-change neutral">
+                            <i class="fas fa-minus"></i>
+                            <span>Stable</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Profit Distribution by Profession</h3>
+                        </div>
+                        <div id="profitChart" class="simple-chart"></div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Market Trends</h3>
+                        </div>
+                        <div id="trendsChart" class="trend-bars"></div>
+                    </div>
+                </div>
+
+                <!-- Top Movers Section -->
+                <div class="top-movers">
+                    <h2>Top Market Movers</h2>
+                    <div class="movers-grid">
+                        <div class="mover-section">
+                            <h3>🚀 Top Gainers</h3>
+                            <div id="topGainers" class="movers-list"></div>
+                        </div>
+                        <div class="mover-section">
+                            <h3>📉 Top Losers</h3>
+                            <div id="topLosers" class="movers-list"></div>
+                        </div>
+                        <div class="mover-section">
+                            <h3>🔥 Most Active</h3>
+                            <div id="mostActive" class="movers-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Analysis Tab -->
+            <div id="recipes" class="tab-content">
+                <div class="page-header">
+                    <h1>Recipe Analysis</h1>
+                    <div class="header-actions">
+                        <div class="filter-controls">
+                            <select id="professionFilter" class="filter-select">
+                                <option value="">All Professions</option>
+                            </select>
+                            <input type="number" id="minProfitFilter" placeholder="Min Profit" class="filter-input">
+                            <select id="sortBy" class="filter-select">
+                                <option value="profit">Sort by Profit</option>
+                                <option value="margin">Sort by Margin</option>
+                                <option value="name">Sort by Name</option>
+                            </select>
+                        </div>
+                        <button id="resetFilters" class="btn btn-outline">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="advanced-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-info">
+                            <span id="tableRowCount">0 recipes</span>
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fas fa-columns"></i> Columns
+                            </button>
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="recipesTable" class="advanced-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="name">
+                                        Recipe <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-sort="profession">
+                                        Profession <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-sort="skill_level">
+                                        Level <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-sort="materialsCost">
+                                        Materials Cost <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-sort="resultValue">
+                                        Result Value <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-sort="profit">
+                                        Profit <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-sort="margin">
+                                        ROI <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <div class="pagination-info">
+                            Showing <span id="paginationStart">1</span>-<span id="paginationEnd">50</span> of <span id="paginationTotal">0</span>
+                        </div>
+                        <div class="pagination-controls">
+                            <button id="prevPage" class="btn btn-sm btn-outline">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span id="currentPage">1</span> / <span id="totalPages">1</span>
+                            <button id="nextPage" class="btn btn-sm btn-outline">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Market Tab -->
+            <div id="materials" class="tab-content">
+                <div class="page-header">
+                    <h1>Materials Market</h1>
+                    <div class="header-actions">
+                        <div class="market-filters">
+                            <select id="materialCategory" class="filter-select">
+                                <option value="">All Categories</option>
+                                <option value="herbs">Herbs</option>
+                                <option value="metals">Metals</option>
+                                <option value="gems">Gems</option>
+                                <option value="cloth">Cloth</option>
+                            </select>
+                            <select id="availabilityFilter" class="filter-select">
+                                <option value="">All Availability</option>
+                                <option value="high">High Stock</option>
+                                <option value="medium">Medium Stock</option>
+                                <option value="low">Low Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="materials-grid">
+                    <div class="material-summary-cards">
+                        <div class="summary-card">
+                            <h3>Market Snapshot</h3>
+                            <div class="snapshot-stats">
+                                <div class="stat">
+                                    <span class="label">Total Materials</span>
+                                    <span class="value" id="totalMaterials">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Avg Price Change</span>
+                                    <span class="value positive" id="avgPriceChange">+2.3%</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">High Demand</span>
+                                    <span class="value" id="highDemandCount">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="advanced-table-container">
+                    <table id="materialsTable" class="advanced-table">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Market Value</th>
+                                <th>Min Buyout</th>
+                                <th>Stock</th>
+                                <th>Demand</th>
+                                <th>Price Trend</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Profit Trends Tab -->
+            <div id="trends" class="tab-content">
+                <div class="page-header">
+                    <h1>Profit Trends & Analytics</h1>
+                    <div class="header-actions">
+                        <div class="trend-controls">
+                            <select id="trendTimeframe" class="filter-select">
+                                <option value="24h">Last 24 Hours</option>
+                                <option value="7d" selected>Last 7 Days</option>
+                                <option value="30d">Last 30 Days</option>
+                            </select>
+                            <select id="trendProfession" class="filter-select">
+                                <option value="">All Professions</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trends-dashboard">
+                    <div class="trend-cards">
+                        <div class="trend-card">
+                            <h3>Trending Up 📈</h3>
+                            <div id="trendingUp" class="trend-list"></div>
+                        </div>
+                        <div class="trend-card">
+                            <h3>Trending Down 📉</h3>
+                            <div id="trendingDown" class="trend-list"></div>
+                        </div>
+                        <div class="trend-card">
+                            <h3>Stable Markets 📊</h3>
+                            <div id="stableMarkets" class="trend-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container large">
+                        <div class="chart-header">
+                            <h3>Profit Trends Over Time</h3>
+                            <div class="chart-legend">
+                                <span class="legend-item">
+                                    <span class="legend-color" style="background: #00d4aa;"></span>
+                                    Alchemy
+                                </span>
+                                <span class="legend-item">
+                                    <span class="legend-color" style="background: #ff6b6b;"></span>
+                                    Blacksmithing
+                                </span>
+                                <span class="legend-item">
+                                    <span class="legend-color" style="background: #4ecdc4;"></span>
+                                    Enchanting
+                                </span>
+                            </div>
+                        </div>
+                        <canvas id="profitTrendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profit Calculator Tab -->
+            <div id="calculator" class="tab-content">
+                <div class="page-header">
+                    <h1>Advanced Profit Calculator</h1>
+                </div>
+
+                <div class="calculator-layout">
+                    <div class="calculator-form">
+                        <div class="calc-section">
+                            <h3>Recipe Selection</h3>
+                            <div class="form-group">
+                                <label>Choose Recipe</label>
+                                <select id="calcRecipe" class="form-control">
+                                    <option value="">Select a recipe...</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                    <input type="number" id="calcQuantity" value="1" min="1" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Batch Size</label>
+                                    <input type="number" id="batchSize" value="1" min="1" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-section">
+                            <h3>Market Conditions</h3>
+                            <div class="form-group">
+                                <label>Price Source</label>
+                                <select id="priceSource" class="form-control">
+                                    <option value="current">Current Market</option>
+                                    <option value="conservative">Conservative (Min Buyout)</option>
+                                    <option value="optimistic">Optimistic (Market Value)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Auction House Cut (%)</label>
+                                <input type="number" id="ahCut" value="5" min="0" max="15" step="0.1" class="form-control">
+                            </div>
+                        </div>
+
+                        <button id="calculateBtn" class="btn btn-primary btn-large">
+                            <i class="fas fa-calculator"></i> Calculate Profit
+                        </button>
+                    </div>
+
+                    <div class="calculator-results">
+                        <div id="calcResults" class="results-container">
+                            <div class="results-placeholder">
+                                <i class="fas fa-calculator"></i>
+                                <h3>Select a recipe to calculate profits</h3>
+                                <p>Choose a recipe and quantity to see detailed profit analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Tab -->
+            <div id="portfolio" class="tab-content">
+                <div class="page-header">
+                    <h1>My Crafting Portfolio</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="addToPortfolio">
+                            <i class="fas fa-plus"></i> Add Recipe
+                        </button>
+                    </div>
+                </div>
+
+                <div class="portfolio-summary">
+                    <div class="portfolio-stats">
+                        <div class="stat-card">
+                            <h3>Total Investment</h3>
+                            <div class="stat-value" id="totalInvestment">0g</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Expected Return</h3>
+                            <div class="stat-value positive" id="expectedReturn">0g</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Portfolio ROI</h3>
+                            <div class="stat-value" id="portfolioROI">0%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-table">
+                    <table id="portfolioTable" class="advanced-table">
+                        <thead>
+                            <tr>
+                                <th>Recipe</th>
+                                <th>Quantity</th>
+                                <th>Investment</th>
+                                <th>Expected Profit</th>
+                                <th>ROI</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Alerts Tab -->
+            <div id="alerts" class="tab-content">
+                <div class="page-header">
+                    <h1>Price Alerts & Notifications</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="createAlert">
+                            <i class="fas fa-bell"></i> Create Alert
+                        </button>
+                    </div>
+                </div>
+
+                <div class="alerts-container">
+                    <div class="alert-types">
+                        <div class="alert-type-card">
+                            <h3>Profit Alerts</h3>
+                            <p>Get notified when recipes reach your target profit margin</p>
+                            <div class="alert-count">3 Active</div>
+                        </div>
+                        <div class="alert-type-card">
+                            <h3>Price Alerts</h3>
+                            <p>Monitor material prices and market changes</p>
+                            <div class="alert-count">7 Active</div>
+                        </div>
+                        <div class="alert-type-card">
+                            <h3>Stock Alerts</h3>
+                            <p>Track material availability and stock levels</p>
+                            <div class="alert-count">2 Active</div>
+                        </div>
+                    </div>
+
+                    <div class="active-alerts">
+                        <h3>Active Alerts</h3>
+                        <div id="alertsList" class="alerts-list"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Enhanced Recipe Details Modal -->
+    <div id="recipeModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 id="modalTitle">Recipe Details</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="recipeDetails" class="recipe-details-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Creation Modal -->
+    <div id="alertModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Price Alert</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="alertForm" class="alert-form">
+                    <div class="form-group">
+                        <label>Alert Type</label>
+                        <select id="alertType" class="form-control">
+                            <option value="profit">Profit Threshold</option>
+                            <option value="price">Price Change</option>
+                            <option value="stock">Stock Level</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Recipe/Material</label>
+                        <select id="alertTarget" class="form-control">
+                            <option value="">Select target...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Threshold Value</label>
+                        <input type="number" id="alertThreshold" class="form-control" placeholder="Enter threshold">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="platform.closeModal('alertModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Alert</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
