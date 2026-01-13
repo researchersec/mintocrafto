@@ -1,4 +1,4 @@
-/* ===== RESET & BASE STYLES ===== */
+/* ==== RESET & BASE STYLES ==== */
 * {
     margin: 0;
     padding: 0;
@@ -1955,4 +1955,5 @@ select:focus,
 input:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+
 }
